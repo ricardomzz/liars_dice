@@ -7,6 +7,9 @@ function Player(){
     }
     return this.dice;
   };
+  this.lose_die = function (){
+    this.number_of_dice = this.number_of_dice-1;
+  };
 }
 
 
@@ -14,5 +17,4 @@ function Player(){
 
 
 var player_1 = new Player();
-
 $("#dice").html(player_1.roll());
