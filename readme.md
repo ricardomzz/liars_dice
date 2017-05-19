@@ -1,7 +1,9 @@
 # Introduction:
 Liar's Dice is a dice Game widely played in South America using a set of cups and dice. Bluffing is highly encouraged!
+
 # Installation Instructions:
 Just open index.html using your preferred modern browser
+
 # How to Play:
 Each player has 3 dice with values concealed from other players. Players take turns either guessing a number and how many dice they believe currently have that number for all players or challenging the previous player's guess.
 
