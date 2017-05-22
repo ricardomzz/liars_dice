@@ -67,10 +67,14 @@ function Game(){
     game.render();
   };
   this.raise = function(bid){
-    //TODO: Check if bid is valid
+    if((bid.quantity>game.bid.quantity && bid.face >= game.bid.face)||
+    (bid.face > game.bid.face)){
     game.bid=bid;
     game.next_turn();
     this.render();
+  } else {
+    alert('bid must be greater!');
+  }
   };
   this.challenge = function(){
     dice_with_correct_face=0;
@@ -80,10 +84,10 @@ function Game(){
       });
     });
     if (dice_with_correct_face >= game.bid.quantity){
-      this.players[this.turn].lose_die()
+      this.players[this.turn].lose_die();
       alert('player '+this.turn+' lost! and player '+this.previous_turn+'won!count of dice with '+game.bid.face+' face: '+dice_with_correct_face);
     } else {
-      this.players[this.previous_turn].lose_die()
+      this.players[this.previous_turn].lose_die();
       alert('player '+this.turn+' won! and player '+this.previous_turn+'lost! count of dice with '+game.bid.face+' face: '+dice_with_correct_face); }
     game.new_round();
   };
