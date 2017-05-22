@@ -23,7 +23,9 @@ function Game(){
   this.players=[];
   this.bid={quantity:1,face:1};
   this.turn=0;
+  this.previous_turn=0;
   this.next_turn = function (){
+    this.previous_turn = this.turn;
     if (this.turn === this.players.length-1) {
       this.turn = 0;
     } else {
@@ -33,10 +35,11 @@ function Game(){
   this.render = function(){
     $("#game").html('');
     game.players.forEach(function(player,index,array){
-      html='<p>player '+index+': '+player.dice+'</p>';
+      html='<p>player '+index+'</p>';
       $("#game").append(html);
       if (game.turn == index) {$("#game").append(
-        'Quantity: '+'<input type="number" min="1" id="bid_quantity" step="1" value="'+game.bid.quantity+'" />'+
+        'Dice:  '+player.dice+
+        ' Quantity: '+'<input type="number" min="1" id="bid_quantity" step="1" value="'+game.bid.quantity+'" />'+
         ' Face:'+'<input type="number" id="bid_face" min="1" max="6" step="1" value="'+game.bid.face+'" />'+
         '<button type="button" id="raise">Raise!</button>'+
         '<button type="button" id="challenge">Challenge!</button>'
@@ -70,6 +73,18 @@ function Game(){
     this.render();
   };
   this.challenge = function(){
+    dice_with_correct_face=0;
+    game.players.forEach(function(player){
+      player.dice.forEach(function(die){
+        if (die==game.bid.face) {dice_with_correct_face+=1;}
+      });
+    });
+    if (dice_with_correct_face >= game.bid.quantity){
+      this.players[this.turn].lose_die()
+      alert('player '+this.turn+' lost! and player '+this.previous_turn+'won!count of dice with '+game.bid.face+' face: '+dice_with_correct_face);
+    } else {
+      this.players[this.previous_turn].lose_die()
+      alert('player '+this.turn+' won! and player '+this.previous_turn+'lost! count of dice with '+game.bid.face+' face: '+dice_with_correct_face); }
     game.new_round();
   };
   this.new_round = function(){
