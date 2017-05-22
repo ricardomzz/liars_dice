@@ -3,7 +3,16 @@ function Player(id){
   this.id=id;
   this.dice=[];
   this.number_of_dice=3;
+  this.auto_play = function(current_game){
+    quantity = current_game.bid.quantity +1;
+    face = current_game.bid.face >= 6 ? 6 : current_game.bid.face +1;
 
+    if (current_game.bid.face === 6) {current_game.raise({quantity:quantity,face:current_game.bid.face});}
+    else {
+      if (Math.random()>0.5){current_game.raise({quantity:current_game.bid.quantity,face:face});}
+      else {current_game.raise({quantity:quantity,face:current_game.bid.face});}
+    }
+  };
 }
 
 Player.prototype.roll = function (){
@@ -30,12 +39,13 @@ function Game(){
     if (this.turn==this.players[this.players.length-1]){
       this.turn=this.players[0];
     } else{this.turn=this.players[this.players.indexOf(this.turn)+1];}
+    this.render();
 
   };
   this.render = function(){
     $("#game").html('');
     game.players.forEach(function(player,index,array){
-      html='<p>player '+player.id+'</p>';
+      html='<p>player '+player.id+' ('+player.dice.length+' dice)</p>';
       $("#game").append(html);
       if (player===game.turn) {$("#game").append(
         'Dice:  '+player.dice+
@@ -78,7 +88,6 @@ function Game(){
     (bid.face > game.bid.face)){
     game.bid=bid;
     game.next_turn();
-    this.render();
   } else {
     alert('bid must be greater!');
   }
@@ -123,4 +132,4 @@ function Game(){
 
 //Initialize
 game = new Game();
-game.start(2);
+game.start(5);
