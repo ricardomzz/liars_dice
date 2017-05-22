@@ -1,135 +1,51 @@
-//Player Class and Prototype Methods
-function Player(id){
-  this.id=id;
-  this.dice=[];
-  this.number_of_dice=3;
-  this.auto_play = function(current_game){
-    quantity = current_game.bid.quantity +1;
-    face = current_game.bid.face >= 6 ? 6 : current_game.bid.face +1;
-
-    if (current_game.bid.face === 6) {current_game.raise({quantity:quantity,face:current_game.bid.face});}
-    else {
-      if (Math.random()>0.5){current_game.raise({quantity:current_game.bid.quantity,face:face});}
-      else {current_game.raise({quantity:quantity,face:current_game.bid.face});}
-    }
-  };
-}
-
-Player.prototype.roll = function (){
-  this.dice=[];
-  for (i=0; i<this.number_of_dice; i++){
-    this.dice.push(Math.floor(Math.random() * 6) + 1);
-  }
-  return this.dice;
-};
-
-Player.prototype.lose_die = function (){
-  this.number_of_dice = this.number_of_dice-1;
-};
-
 //Game Class
-
-function Game(){
+function Game(number_of_players){
   this.players=[];
-  this.bid={quantity:1,face:1};
-  this.turn=null;
-  this.previous_turn=null;
-  this.next_turn = function (){
-    this.previous_turn=this.turn;
-    if (this.turn==this.players[this.players.length-1]){
-      this.turn=this.players[0];
-    } else{this.turn=this.players[this.players.indexOf(this.turn)+1];}
-    this.render();
-
-  };
-  this.render = function(){
-    $("#game").html('');
-    game.players.forEach(function(player,index,array){
-      html='<p>player '+player.id+' ('+player.dice.length+' dice)</p>';
-      $("#game").append(html);
-      if (player===game.turn) {$("#game").append(
-        'Dice:  '+player.dice+
-        ' Quantity: '+'<input type="number" min="1" id="bid_quantity" step="1" value="'+game.bid.quantity+'" />'+
-        ' Face:'+'<input type="number" id="bid_face" min="1" max="6" step="1" value="'+game.bid.face+'" />'+
-        '<button type="button" id="raise">Raise!</button>'
-      );
-      $("#raise").click(function(){
-        quantity=$('#bid_quantity').val();
-        face=$('#bid_face').val();
-        game.raise({quantity:quantity,face:face});
-      });
-      }
-      if (player===game.turn && game.previous_turn) {$("#game").append(
-        '<button type="button" id="challenge">Challenge!</button>'
-      );
-      $("#challenge").click(function(){
-        game.challenge();
-      });
-      }
-
-
-
-
-    });
-
-  };
-  this.start = function (number_of_players){
-    for (i=0; i<number_of_players; i++){
-      this.players.push(new Player(i+1));
+  this.bid={quantity:null,face:null,player:null};
+  this.start=function(){
+    for (i=0;i<number_of_players;i++){
+      this.players.push(new Player(this,i+1));
     }
     this.players.forEach(function(player){
       player.roll();
     });
-    this.turn=this.players[0];
-    game.render();
   };
-  this.raise = function(bid){
-    if((bid.quantity>game.bid.quantity && bid.face >= game.bid.face)||
-    (bid.face > game.bid.face)){
-    game.bid=bid;
-    game.next_turn();
-  } else {
-    alert('bid must be greater!');
-  }
+}
+
+//Player Class
+function Player(game,id){
+  this.id=id;
+  this.game=game;
+  this.number_of_dice=3;
+  this.dice=[];
+  this.roll = function (){
+    this.dice=[];
+    for (i=0; i<this.number_of_dice; i++){
+      this.dice.push(Math.floor(Math.random() * 6) + 1);
+    }
   };
-  this.challenge = function(){
+
+  this.raise_bid=function(quantity,face){
+    this.game.bid={quantity:quantity,face:face,player:this};
+  };
+  this.challenge_bid=function(){
     dice_with_correct_face=0;
-    game.players.forEach(function(player){
+    this.game.players.forEach(function(player){
       player.dice.forEach(function(die){
         if (die==game.bid.face) {dice_with_correct_face+=1;}
       });
     });
     if (dice_with_correct_face >= game.bid.quantity){
-      this.turn.lose_die();
-      alert('player '+this.turn.id+' lost! and player '+this.previous_turn.id+'won!count of dice with '+game.bid.face+' face: '+dice_with_correct_face);
-      this.turn=this.previous_turn;
-    } else {
-      this.previous_turn.lose_die();
-      alert('player '+this.turn.id+' won! and player '+this.previous_turn.id+'lost! count of dice with '+game.bid.face+' face: '+dice_with_correct_face); }
-    game.new_round();
-  };
-  this.new_round = function(){
-    game.previous_turn=null;
-    //remove inactive players
-    game.players.forEach(function(player){
-      if (player.number_of_dice===0){
-        game.players.splice(game.players.indexOf(player), 1 );
-      }
-      //check for victory
-      if (game.players.length === 1){
-        alert('player '+game.players[0].id+' won!');
-        game.turn=null;
-        game.render();
-      } else { //else go on with game
-      player.roll();
-      game.bid={quantity:1,face:1};
-      game.render();
+      this.game.bid.player.lose_die();
+    } else{
+      this.lose_die();
     }
-    });
+
+  };
+  this.lose_die = function () {
+    this.number_of_dice=this.number_of_dice-1;
   };
 }
 
-
-//Initialize
-game = new Game();
-game.start(5);
+game=new Game(3);
+game.start();
