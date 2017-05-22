@@ -6,6 +6,7 @@ function Player(){
 }
 
 Player.prototype.roll = function (){
+  this.dice=[];
   for (i=0; i<this.number_of_dice; i++){
     this.dice.push(Math.floor(Math.random() * 6) + 1);
   }
@@ -41,9 +42,7 @@ function Game(){
         '<button type="button" id="challenge">Challenge!</button>'
       );
       $("#challenge").click(function(){
-        game.next_turn();
-        game.render();
-
+        game.challenge();
       });
       $("#raise").click(function(){
         quantity=$('#bid_quantity').val();
@@ -65,9 +64,21 @@ function Game(){
     game.render();
   };
   this.raise = function(bid){
+    //TODO: Check if bid is valid
     game.bid=bid;
     game.next_turn();
     this.render();
+  };
+  this.challenge = function(){
+    game.new_round();
+  };
+  this.new_round = function(){
+    game.players.forEach(function(player){
+      player.roll();
+      game.bid={quantity:1,face:1};
+      game.turn=0;
+      game.render();
+    });
   };
 }
 
