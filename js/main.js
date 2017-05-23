@@ -13,17 +13,26 @@ function Game(number_of_players){
   this.render = function (){
     $('#main').html('');
     this.players.forEach(function(player){
-      $('#main').append('<div id="player'+player.id+'" class="player"><h1>Player'+player.id+'</h1></div>');
+      $('#main').append(
+        '<div id="player'+player.id+'" class="player"><h1>Player'+player.id+
+        '</h1></div>');
       $('#player'+player.id).append('<p>Dice: '+player.dice+'</p>');
     });
     $('#player'+game.turn.id).addClass('active');
       $('#player'+game.turn.id).append('<p>Your Turn!</p>');
       //Add Controls and assign functions
-      $('#player'+game.turn.id).append(' Quantity: '+'<input type="number" min="1" id="bid_quantity" step="1" value="'+game.bid.quantity+'" />');
-      $('#player'+game.turn.id).append(' Face:'+'<input type="number" id="bid_face" min="1" max="6" step="1" value="'+game.bid.face+'" />');
-      $('#player'+game.turn.id).append('<button type="button" id="raise_bid">Raise Bid!</button>');
-      $('#player'+game.turn.id).append('<button type="button" id="challenge">Challenge!</button>');
-      $('#player'+game.turn.id).append('<button type="button" id="auto_bid">Auto</button>');
+      $('#player'+game.turn.id).append(' Quantity: '+
+      '<input type="number" min="1" id="bid_quantity" step="1" value="'+
+      game.bid.quantity+'" />');
+      $('#player'+game.turn.id).append(' Face:'+
+      '<input type="number" id="bid_face" min="1" max="6" step="1" value="'+
+      game.bid.face+'" />');
+      $('#player'+game.turn.id).append(
+        '<button type="button" id="raise_bid">Raise Bid!</button>');
+      $('#player'+game.turn.id).append(
+        '<button type="button" id="challenge">Challenge!</button>');
+      $('#player'+game.turn.id).append(
+        '<button type="button" id="auto_bid">Auto</button>');
 
       $("#raise_bid").click(function(){
         quantity=$('#bid_quantity').val();
@@ -86,7 +95,8 @@ function Player(game,id){
 
     if((quantity>game.bid.quantity && face >= game.bid.face)||
     (face > game.bid.face)){
-      console.log('player '+this.id+' raised the bid to: '+quantity+' of '+face);
+      console.log('player '+this.id+' raised the bid to: '+quantity+' of '+
+      face);
       this.game.bid={quantity:quantity,face:face,player:this};
       this.game.next_turn();
     } else {console.log('bid must be greater!');}
@@ -96,14 +106,16 @@ function Player(game,id){
 
   this.challenge_bid=function(){
     if (this.game.bid.player) {
-    console.log('player '+this.id+' challenged player '+this.game.bid.player.id+"'s bid!");
+    console.log('player '+this.id+' challenged player '+
+    this.game.bid.player.id+"'s bid!");
     dice_with_correct_face=0;
     this.game.players.forEach(function(player){
       player.dice.forEach(function(die){
         if (die==game.bid.face || die==1) {dice_with_correct_face+=1;}
       });
     });
-    console.log('There are '+dice_with_correct_face+' dice with face '+game.bid.face+' includng wild 1s!');
+    console.log('There are '+dice_with_correct_face+' dice with face '+
+    game.bid.face+' includng wild 1s!');
     if (dice_with_correct_face > game.bid.quantity){
       this.game.bid.player.lose_die();
       console.log('player '+this.game.bid.player.id+' lost a die!');
