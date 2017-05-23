@@ -141,5 +141,6 @@ function Player(game,id){
   };
 }
 
+//Initiate
 game=new Game(3);
 game.start();
