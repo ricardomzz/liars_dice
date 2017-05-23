@@ -66,6 +66,11 @@ function Game(number_of_players){
     //set player 0 (id 1) to non-AI
     this.players[0].auto=false;
     this.new_round();
+    //Assign turn to random player
+    this.turn = this.players[Math.floor(Math.random() * this.players.length)];
+    console.log(this.turn)
+    // if player is AI, turn on game auto
+    if (game.turn.auto) {game.auto();}
   };
   this.new_round=function(){
     //remove inactive players
@@ -79,15 +84,14 @@ function Game(number_of_players){
     if (game.players.length === 1){
       console.log('player '+game.players[0].id+' won!');
       game.turn=null;
+      game.render();
     } else {
     this.roll_all();
-    //if not turn assign turn to player[0]
-    this.turn = this.turn? this.turn : this.players[0];
     //if current player is out, pass turn to next player
-    if (!game.players.includes(this.turn)) {game.next_turn();}
+    if (game.turn && !game.players.includes(this.turn)) {game.next_turn();}
     this.bid={quantity:null,face:null,player:null};
   }
-  this.render();
+  if(game.turn){this.render();}
 };
 }
 
