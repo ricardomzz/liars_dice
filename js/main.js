@@ -70,7 +70,7 @@ function Game(number_of_players){
     //Assign turn to random player
     this.turn = this.players[Math.floor(Math.random() * this.players.length)];
     // if player is AI, turn on game auto
-    if (game.turn.auto) {game.auto();} else {game.render()}
+    if (game.turn.auto) {game.auto();} else {game.render();}
   };
   this.new_round=function(){
     //remove inactive players
