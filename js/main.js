@@ -16,26 +16,11 @@ function Game(number_of_players){
       $('#main').append('<div id="player'+player.id+'" class="player"><h1>Player'+player.id+'</h1></div>');
       $('#player'+player.id).append('<p>Dice: '+player.dice+'</p>');
     });
-    $('#player'+game.turn.id).addClass('active');
+    $('#player'+game.turn.id).addClass('active')
       $('#player'+game.turn.id).append('<p>Your Turn!</p>');
-      //Add Controls and assign functions
-      $('#player'+game.turn.id).append(' Quantity: '+'<input type="number" min="1" id="bid_quantity" step="1" value="'+game.bid.quantity+'" />');
-      $('#player'+game.turn.id).append(' Face:'+'<input type="number" id="bid_face" min="1" max="6" step="1" value="'+game.bid.face+'" />');
-      $('#player'+game.turn.id).append('<button type="button" id="raise_bid">Raise Bid!</button>');
-      $('#player'+game.turn.id).append('<button type="button" id="challenge">Challenge!</button>');
-      $('#player'+game.turn.id).append('<button type="button" id="auto_bid">Auto</button>');
 
-      $("#raise_bid").click(function(){
-        quantity=$('#bid_quantity').val();
-        face=$('#bid_face').val();
-        game.turn.raise_bid(quantity,face);
-      });
-      $("#auto_bid").click(function(){
-        game.turn.auto_bid();
-      });
-      $("#challenge").click(function(){
-        game.turn.challenge_bid();
-      });
+
+
   };
   this.roll_all=function(){
     this.players.forEach(function(player){
