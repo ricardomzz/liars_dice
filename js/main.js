@@ -16,6 +16,7 @@ function Game(number_of_players){
     }
   };
   this.render = function (){
+    var dice = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;' ];
     $('#bid').html('');
     $('#players').html('');
     if (game.bid.quantity){
@@ -23,19 +24,23 @@ function Game(number_of_players){
     }
     this.players.forEach(function(player){
       $('#players').append(
-        '<div id="player'+player.id+'" class="player"><h1>Player'+player.id+
-        '</h1></div>');
-      $('#player'+player.id).append('<p>Dice: '+player.dice+'</p>');
+        '<div id="player'+player.id+'" class="player"><h3>Player'+player.id+
+        '</h3></div>');
+      $('#player'+player.id).append('<p># of Dice: '+player.dice.length+'</p>');
     });
     $('#player'+game.turn.id).addClass('active');
-    $('#player'+game.turn.id).append('<p>Your Turn!</p>');
+    //Show dice for current player
+    game.turn.dice.forEach(function(die){
+      $('#player'+game.turn.id).append('<span class="die">'+dice[die-1]+'</span>');
+
+    });
       //Add Controls and assign functions
-    $('#player'+game.turn.id).append(' Quantity: '+
+    $('#player'+game.turn.id).append('<p>Quantity: '+
       '<input type="number" min="1" id="bid_quantity" step="1" value="'+
-      game.bid.quantity+'" />');
-    $('#player'+game.turn.id).append(' Face:'+
+      game.bid.quantity+'" /></p>');
+    $('#player'+game.turn.id).append('<p>Face:'+
       '<input type="number" id="bid_face" min="1" max="6" step="1" value="'+
-      game.bid.face+'" />');
+      game.bid.face+'" /></p>');
     $('#player'+game.turn.id).append(
         '<button type="button" id="raise_bid">Raise Bid!</button>');
     $('#player'+game.turn.id).append(
