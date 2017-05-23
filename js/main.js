@@ -75,10 +75,11 @@ function Player(game,id){
     dice_with_correct_face=0;
     this.game.players.forEach(function(player){
       player.dice.forEach(function(die){
-        if (die==game.bid.face) {dice_with_correct_face+=1;}
+        if (die==game.bid.face || die==1) {dice_with_correct_face+=1;}
       });
     });
-    if (dice_with_correct_face >= game.bid.quantity){
+    console.log('There are '+dice_with_correct_face+' dice with face '+game.bid.face+' includng wild 1s!');
+    if (dice_with_correct_face > game.bid.quantity){
       this.game.bid.player.lose_die();
       console.log('player '+this.game.bid.player.id+' lost a die!');
     } else{
