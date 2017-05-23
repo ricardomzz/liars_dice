@@ -64,9 +64,15 @@ function Player(game,id){
   };
 
   this.raise_bid=function(quantity,face){
-    console.log('player '+this.id+' raised the bid to: '+quantity+' of '+face);
-    this.game.bid={quantity:quantity,face:face,player:this};
-    this.game.next_turn();
+
+    if((quantity>game.bid.quantity && face >= game.bid.face)||
+    (face > game.bid.face)){
+      console.log('player '+this.id+' raised the bid to: '+quantity+' of '+face);
+      this.game.bid={quantity:quantity,face:face,player:this};
+      this.game.next_turn();
+    } else {console.log('bid must be greater!');}
+
+
   };
 
   this.challenge_bid=function(){
