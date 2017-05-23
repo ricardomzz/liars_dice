@@ -116,7 +116,7 @@ function Player(game,id){
     });
     console.log('There are '+dice_with_correct_face+' dice with face '+
     game.bid.face+' includng wild 1s!');
-    if (dice_with_correct_face > game.bid.quantity){
+    if (dice_with_correct_face < game.bid.quantity){
       this.game.bid.player.lose_die();
       console.log('player '+this.game.bid.player.id+' lost a die!');
     } else{
