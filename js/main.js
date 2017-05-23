@@ -38,8 +38,8 @@ function Game(number_of_players){
         '<button type="button" id="auto_bid">Auto</button>');
 
     $("#raise_bid").click(function(){
-        quantity=$('#bid_quantity').val();
-        face=$('#bid_face').val();
+        quantity=parseInt($('#bid_quantity').val());
+        face=parseInt($('#bid_face').val());
         game.turn.raise_bid(quantity,face);
       });
     $("#auto_bid").click(function(){
