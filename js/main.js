@@ -7,6 +7,7 @@ function Game(number_of_players){
     this.turn=this.players[this.players.indexOf(this.turn)+1] ?
     this.players[this.players.indexOf(this.turn)+1]:
     this.players[0];
+    this.render();
     console.log('player '+this.turn.id+"'s turn");
   };
   this.render = function (){
@@ -15,6 +16,9 @@ function Game(number_of_players){
       $('#main').append('<div id="player'+player.id+'" class="player"><h1>Player'+player.id+'</h1></div>');
       $('#player'+player.id).append('<p>Dice: '+player.dice+'</p>');
     });
+    $('#player'+game.turn.id).addClass('active')
+      $('#player'+game.turn.id).append('<p>Your Turn!</p>');
+
 
 
   };
