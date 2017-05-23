@@ -16,18 +16,19 @@ function Game(number_of_players){
     }
   };
   this.render = function (){
-    $('#main').html('');
+    $('#bid').html('');
+    $('#players').html('');
+    if (game.bid.quantity){
+      $('#bid').append('Bid: '+game.bid.quantity+' of '+game.bid.face);
+    }
     this.players.forEach(function(player){
-      $('#main').append(
+      $('#players').append(
         '<div id="player'+player.id+'" class="player"><h1>Player'+player.id+
         '</h1></div>');
       $('#player'+player.id).append('<p>Dice: '+player.dice+'</p>');
     });
     $('#player'+game.turn.id).addClass('active');
     $('#player'+game.turn.id).append('<p>Your Turn!</p>');
-    if (game.bid.player){
-      $('#player'+game.bid.player.id).append('Bid: '+game.bid.quantity+' of '+game.bid.face);
-    }
       //Add Controls and assign functions
     $('#player'+game.turn.id).append(' Quantity: '+
       '<input type="number" min="1" id="bid_quantity" step="1" value="'+
@@ -68,7 +69,6 @@ function Game(number_of_players){
     this.new_round();
     //Assign turn to random player
     this.turn = this.players[Math.floor(Math.random() * this.players.length)];
-    console.log(this.turn)
     // if player is AI, turn on game auto
     if (game.turn.auto) {game.auto();}
   };
