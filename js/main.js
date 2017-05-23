@@ -28,11 +28,24 @@ function Game(number_of_players){
     this.new_round();
   };
   this.new_round=function(){
+    //remove inactive players
+    game.players.forEach(function(player){
+      if (player.number_of_dice===0){
+        console.log('player '+player.id+' has lost all dice and is out!');
+        game.players.splice(game.players.indexOf(player), 1 );
+      }
+    });
+    //check for victory
+    if (game.players.length === 1){
+      console.log('player '+game.players[0].id+' won!');
+      game.turn=null;
+    } else {
     this.roll_all();
     this.turn=this.players[0];
     this.bid={quantity:null,face:null,player:null};
     this.render();
   }
+};
 }
 
 //Player Class
