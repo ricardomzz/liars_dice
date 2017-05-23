@@ -64,13 +64,13 @@ function Game(number_of_players){
     for (i=0;i<number_of_players;i++){
       this.players.push(new Player(this,i+1));
     }
+    this.roll_all();
     //set player 0 (id 1) to non-AI
     this.players[0].auto=false;
-    this.new_round();
     //Assign turn to random player
     this.turn = this.players[Math.floor(Math.random() * this.players.length)];
     // if player is AI, turn on game auto
-    if (game.turn.auto) {game.auto();}
+    if (game.turn.auto) {game.auto();} else {game.render()}
   };
   this.new_round=function(){
     //remove inactive players
