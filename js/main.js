@@ -12,8 +12,10 @@ function Game(number_of_players){
   this.render = function (){
     $('#main').html('');
     this.players.forEach(function(player){
-      $('#main').append(player.dice);
+      $('#main').append('<div id="player'+player.id+'" class="player"><h1>Player'+player.id+'</h1></div>');
+      $('#player'+player.id).append('<p>Dice: '+player.dice+'</p>');
     });
+
 
   };
   this.roll_all=function(){
@@ -43,8 +45,8 @@ function Game(number_of_players){
     this.roll_all();
     this.turn=this.players[0];
     this.bid={quantity:null,face:null,player:null};
-    this.render();
   }
+  this.render();
 };
 }
 
