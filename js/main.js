@@ -58,6 +58,8 @@ function Game(number_of_players){
     for (i=0;i<number_of_players;i++){
       this.players.push(new Player(this,i+1));
     }
+    //set player 0 (id 1) to non-AI
+    this.players[0].auto=false;
     this.new_round();
   };
   this.new_round=function(){
@@ -85,6 +87,7 @@ function Game(number_of_players){
 function Player(game,id){
   this.id=id;
   this.game=game;
+  this.auto=true;
   this.number_of_dice=3;
   this.dice=[];
   this.roll = function (){
