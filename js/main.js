@@ -93,8 +93,8 @@ function Player(game,id){
 
   this.raise_bid=function(quantity,face){
 
-    if((quantity>game.bid.quantity && face >= game.bid.face)||
-    (face > game.bid.face)){
+    if(((quantity>game.bid.quantity && face >= game.bid.face)||
+    (face > game.bid.face))&&(quantity>0 && face>0)){
       console.log('player '+this.id+' raised the bid to: '+quantity+' of '+
       face);
       this.game.bid={quantity:quantity,face:face,player:this};
