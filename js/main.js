@@ -84,12 +84,14 @@ function Player(game,id){
       console.log('player '+this.id+' lost a die!');
     }
     this.game.new_round();
-  } else {console.log('no bid to challenge')}
+  } else {console.log('no bid to challenge');}
   };
   this.auto_bid = function () {
     quantity = this.game.bid.quantity?  this.game.bid.quantity+1 : 1;
     face = this.game.bid.face ? this.game.bid.face +1 : 1;
-    this.raise_bid(quantity,Math.min(face,6));
+    if (this.game.bid.player && Math.random()>0.8){this.challenge_bid();} else
+    {this.raise_bid(quantity,Math.min(face,6));}
+
   };
   this.lose_die = function () {
     this.number_of_dice=this.number_of_dice-1;
