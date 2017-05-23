@@ -81,7 +81,10 @@ function Game(number_of_players){
       game.turn=null;
     } else {
     this.roll_all();
-    this.turn=this.players[0];
+    //if not turn assign turn to player[0]
+    this.turn = this.turn? this.turn : this.players[0];
+    //if current player is out, pass turn to next player
+    if (!game.players.includes(this.turn)) {game.next_turn();}
     this.bid={quantity:null,face:null,player:null};
   }
   this.render();
@@ -127,7 +130,7 @@ function Player(game,id){
       });
     });
     console.log('There are '+dice_with_correct_face+' dice with face '+
-    game.bid.face+' includng wild 1s!');
+    game.bid.face+' including wild 1s!');
     if (dice_with_correct_face < game.bid.quantity){
       this.game.bid.player.lose_die();
       console.log('player '+this.game.bid.player.id+' lost a die!');
