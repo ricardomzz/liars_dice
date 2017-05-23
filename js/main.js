@@ -3,12 +3,14 @@ function Game(number_of_players){
   this.players=[];
   this.bid={quantity:null,face:null,player:null};
   this.turn=null;
+  this.log=[];
   this.next_turn = function (){
     this.turn=this.players[this.players.indexOf(this.turn)+1] ?
     this.players[this.players.indexOf(this.turn)+1]:
     this.players[0];
     this.render();
     console.log('player '+this.turn.id+"'s turn");
+    game.log.push('player '+this.turn.id+"'s turn");
   };
   this.auto = function(){
     while(this.turn.auto){
@@ -16,9 +18,10 @@ function Game(number_of_players){
     }
   };
   this.render = function (){
-    var dice = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;' ];
+    dice = [null,'&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;' ];
     $('#bid').html('');
     $('#players').html('');
+    $('#log').html('');
     if (game.bid.quantity){
       $('#bid').append('Bid: '+game.bid.quantity+' of '+game.bid.face);
     }
@@ -31,12 +34,12 @@ function Game(number_of_players){
     $('#player'+game.turn.id).addClass('active');
     //Show dice for current player
     game.turn.dice.forEach(function(die){
-      $('#player'+game.turn.id).append('<span class="die">'+dice[die-1]+'</span>');
+      $('#player'+game.turn.id).append('<span class="die">'+dice[die]+'</span>');
 
     });
       //Add Controls and assign functions
     $('#player'+game.turn.id).append('<p>Quantity: '+
-      '<input type="number" min="1" id="bid_quantity" step="1" value="'+
+      '<input type="number" min="1" max="'+game.players.length*3+'" id="bid_quantity" step="1" value="'+
       game.bid.quantity+'" /></p>');
     $('#player'+game.turn.id).append('<p>Face:'+
       '<input type="number" id="bid_face" min="1" max="6" step="1" value="'+
@@ -59,6 +62,11 @@ function Game(number_of_players){
     $("#challenge").click(function(){
         game.turn.challenge_bid();
       });
+    //fill in log
+    game.log.forEach(function(entry){
+      $('#log').append('<p>'+entry+'</p>');
+    });
+    $('#log').scrollTop($('#log')[0].scrollHeight);
   };
   this.roll_all=function(){
     this.players.forEach(function(player){
@@ -82,12 +90,15 @@ function Game(number_of_players){
     game.players.forEach(function(player){
       if (player.number_of_dice===0){
         console.log('player '+player.id+' has lost all dice and is out!');
+        game.log.push('player '+player.id+' has lost all dice and is out!');
         game.players.splice(game.players.indexOf(player), 1 );
       }
     });
     //check for victory
     if (game.players.length === 1){
       console.log('player '+game.players[0].id+' won!');
+      game.log.push('player '+game.players[0].id+' won!');
+
       game.turn=null;
       game.render();
     } else {
@@ -120,10 +131,12 @@ function Player(game,id){
     (face > game.bid.face))&&(quantity>0 && face>0)&&(face<=6)){
       console.log('player '+this.id+' raised the bid to: '+quantity+' of '+
       face);
+      game.log.push('player '+this.id+' raised the bid to: '+quantity+' of '+
+      face);
       this.game.bid={quantity:quantity,face:face,player:this};
       this.game.next_turn();
       if (game.turn.auto) {game.auto();}
-    } else {console.log('Invalid Bid!');}
+    } else {console.log('Invalid Bid!');game.log.push('Invalid Bid!');}
 
 
   };
@@ -131,6 +144,8 @@ function Player(game,id){
   this.challenge_bid=function(){
     if (this.game.bid.player) {
     console.log('player '+this.id+' challenged player '+
+    this.game.bid.player.id+"'s bid!");
+    game.log.push('player '+this.id+' challenged player '+
     this.game.bid.player.id+"'s bid!");
     dice_with_correct_face=0;
     this.game.players.forEach(function(player){
@@ -140,16 +155,20 @@ function Player(game,id){
     });
     console.log('There are '+dice_with_correct_face+' dice with face '+
     game.bid.face+' including wild 1s!');
+    game.log.push('There are '+dice_with_correct_face+' dice with face '+
+    game.bid.face+' including wild 1s!');
     if (dice_with_correct_face < game.bid.quantity){
       this.game.bid.player.lose_die();
       console.log('player '+this.game.bid.player.id+' lost a die!');
+      game.log.push('player '+this.game.bid.player.id+' lost a die!');
     } else{
       this.lose_die();
       console.log('player '+this.id+' lost a die!');
+      game.log.push('player '+this.id+' lost a die!');
     }
     this.game.new_round();
     if (game.turn.auto) {game.auto();}
-  } else {console.log('no bid to challenge');}
+  } else {console.log('no bid to challenge');game.log.push('no bid to challenge');}
   };
   this.auto_bid = function () {
     quantity = this.game.bid.quantity?  this.game.bid.quantity+1 : 1;

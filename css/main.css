@@ -60,19 +60,33 @@ textarea {
   color: green;
 }
 
-.player{
+.player, #bid, #log{
   border: solid black 2px;
-  width:50%;
   margin-top: 3%;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
 }
 
 .die{
-  font-size: 64px;
+  font-size: 128px;
+  color: black;
 }
 
 
+#log{
+  width:15%;
+  display: block;
+  float: left;
+  overflow-y: scroll;
+  height: 500px;
+}
+
+#main{
+  width:50%;
+  display: block;
+  float: left;
+}
 
 
 
