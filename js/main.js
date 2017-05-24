@@ -20,7 +20,7 @@ function Game(number_of_players){
   };
   this.render = function (){
     dice = [null,'&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;' ];
-    $('#players').html('<h4>Players</h4>');
+    $('#players').html("<h1>Liar's Dice</h1>");
     $('#log').html('<h4>Game Log</h4>');
 
     if (game.turn){
@@ -50,17 +50,12 @@ function Game(number_of_players){
         '<button type="button" class="btn btn-default" id="raise_bid">Raise Bid!</button>');
     $('#controls').append(
         '<button type="button" class="btn btn-default" id="challenge">Challenge!</button>');
-    $('#controls').append(
-        '<button type="button" class="btn btn-default" id="auto_bid">Auto</button>');
       }
 
     $("#raise_bid").click(function(){
         quantity=parseInt($('#bid_quantity').val());
         face=parseInt($('#bid_face').val());
         game.turn.raise_bid(quantity,face);
-      });
-    $("#auto_bid").click(function(){
-        game.turn.auto_bid();
       });
     $("#challenge").click(function(){
         game.turn.challenge_bid();
@@ -112,7 +107,7 @@ function Game(number_of_players){
     if (game.turn && !game.players.includes(this.turn)) {game.next_turn();}
     this.bid={quantity:null,face:null,player:null};
   }
-  if(game.turn){this.render();}
+  if(game.turn){game.log.push('player '+this.turn.id+"'s turn");this.render();}
 };
 }
 
