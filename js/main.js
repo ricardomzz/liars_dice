@@ -4,6 +4,15 @@ function Game(number_of_players){
   this.bid={quantity:null,face:null,player:null};
   this.turn=null;
   this.log=[];
+  this.all_dice= function(){
+    dice=[];
+    this.players.forEach(function(player){
+      player.dice.forEach(function(die){
+        dice.push(die);
+      });
+    });
+    return dice;
+  };
   this.next_turn = function (){
     this.turn=this.players[this.players.indexOf(this.turn)+1] ?
     this.players[this.players.indexOf(this.turn)+1]:
@@ -42,7 +51,7 @@ function Game(number_of_players){
     });
       //Add Controls and assign functions
     $('#controls').append('<p>Quantity: '+
-      '<input type="number" class="form-control" min="1" max="'+game.players.length*3+'" id="bid_quantity" step="1" value="'+
+      '<input type="number" class="form-control" min="1" max="'+game.all_dice().length+'" id="bid_quantity" step="1" value="'+
       game.bid.quantity+'" /></p>');
     $('#controls').append('<p>Face:'+
       '<input type="number" class="form-control" id="bid_face" min="1" max="6" step="1" value="'+
