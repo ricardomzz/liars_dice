@@ -152,16 +152,16 @@ function Player(game,id){
     this.game.bid.player.id+"'s bid!");
     game.log.push('player '+this.id+' challenged player '+
     this.game.bid.player.id+"'s bid!");
-    dice_with_correct_face=0;
+    dice_with_correct_face=[];
     this.game.players.forEach(function(player){
       player.dice.forEach(function(die){
-        if (die==game.bid.face || die==1) {dice_with_correct_face+=1;}
+        if (die==game.bid.face || die==1) {dice_with_correct_face.push(die);}
       });
     });
-    console.log('There are '+dice_with_correct_face+' dice with face '+
-    game.bid.face+' including wild 1s!');
-    game.log.push('There are '+dice_with_correct_face+' dice with face '+
-    game.bid.face+' including wild 1s!');
+    console.log('There are '+dice_with_correct_face.length+' dice with face '+
+    game.bid.face+' including wild 1s!:'+dice_with_correct_face);
+    game.log.push('There are '+dice_with_correct_face.length+' dice with face '+
+    game.bid.face+' including wild 1s!:'+dice_with_correct_face);
     if (dice_with_correct_face < game.bid.quantity){
       this.game.bid.player.lose_die();
       console.log('player '+this.game.bid.player.id+' lost a die!');
