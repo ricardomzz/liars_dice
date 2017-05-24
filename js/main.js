@@ -29,7 +29,7 @@ function Game(number_of_players){
   };
   this.render = function (){
     dice = [null,'&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;' ];
-    $('#players').html("<h1>Liar's Dice</h1>");
+    $('#players').html("");
     $('#log').html('<h4>Game Log</h4>');
 
     if (game.turn){
@@ -40,10 +40,10 @@ function Game(number_of_players){
         $('#player'+player.id).append('<p># of Dice: '+player.dice.length+'</p>');
       });
       $('#player'+game.turn.id).removeClass('col-md-3');
-    $('#player'+game.turn.id).addClass('active  col-md-12');
+    $('#player'+game.turn.id).addClass('active  col-md-4');
     $('#player'+game.turn.id).html('<h3>Player'+game.turn.id+'</h3>');
-    $('#player'+game.turn.id).append('<div id="dice" class="col-md-12"></div>');
-    $('#player'+game.turn.id).append('<div id="controls" class="col-md-4 col-md-offset-4"></div>');
+    $('#player'+game.turn.id).append('<div id="dice" class=form-group></div>');
+    $('#player'+game.turn.id).append('<form><fieldset id="controls" class="form-group"><legend>Your Bid</legend></fieldset></form>');
     //Show dice for current player
     game.turn.dice.forEach(function(die){
       $('#dice').append('<span class="die">'+dice[die]+'</span>');
