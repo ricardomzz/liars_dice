@@ -75,10 +75,9 @@ function Game(number_of_players){
         game.turn.challenge_bid();
       });
     //fill in log
-    game.log.forEach(function(entry){
+    game.log.reverse().forEach(function(entry){
       $('#log').append('<p>'+entry+'</p>');
     });
-    $('#log').scrollTop($('#log')[0].scrollHeight);
   };
   this.roll_all=function(){
     this.players.forEach(function(player){
