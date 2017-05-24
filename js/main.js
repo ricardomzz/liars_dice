@@ -19,20 +19,18 @@ function Game(number_of_players){
   };
   this.render = function (){
     dice = [null,'&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;' ];
-    $('#bid').html('');
-    $('#players').html('');
-    $('#log').html('');
-    if (game.bid.quantity){
-      $('#bid').append('Bid: '+game.bid.quantity+' of '+game.bid.face);
-    }
-    this.players.forEach(function(player){
-      $('#players').append(
-        '<div id="player'+player.id+'" class="player"><h3>Player'+player.id+
-        '</h3></div>');
-      $('#player'+player.id).append('<p># of Dice: '+player.dice.length+'</p>');
-    });
+    $('#players').html('<h4>Players</h4>');
+    $('#log').html('<h4>Game Log</h4>');
+
     if (game.turn){
-    $('#player'+game.turn.id).addClass('active');
+      this.players.forEach(function(player){
+        $('#players').append(
+          '<div id="player'+player.id+'" class="player col-md-3"><h3>Player'+player.id+
+          '</h3></div>');
+        $('#player'+player.id).append('<p># of Dice: '+player.dice.length+'</p>');
+      });
+      $('#player'+game.turn.id).removeClass('col-md-3');
+    $('#player'+game.turn.id).addClass('active  col-md-12');
     //Show dice for current player
     game.turn.dice.forEach(function(die){
       $('#player'+game.turn.id).append('<span class="die">'+dice[die]+'</span>');
@@ -80,10 +78,12 @@ function Game(number_of_players){
       this.players.push(new Player(this,i+1));
     }
     this.roll_all();
+    game.log.push('Game started with '+number_of_players+' players!');
     //set player 0 (id 1) to non-AI
     this.players[0].auto=false;
     //Assign turn to random player
     this.turn = this.players[Math.floor(Math.random() * this.players.length)];
+    game.log.push('player '+this.turn.id+"'s turn");
     // if player is AI, turn on game auto
     if (game.turn.auto) {game.auto();} else {game.render();}
   };
