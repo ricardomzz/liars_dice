@@ -35,9 +35,13 @@ function Game(number_of_players){
     if (game.turn){
       this.players.forEach(function(player){
         $('#players').append(
-          '<div id="player'+player.id+'" class="player col-md-3"><h3>Player'+player.id+
-          '</h3></div>');
-        $('#player'+player.id).append('<p># of Dice: '+player.dice.length+'</p>');
+          '<div id="player'+player.id+'" class="player col-md-6 text-center"></div>');
+          $('#player'+player.id).append('<div class="p_name col-md-12"><h4>Player '+player.id+'</h4></div>');
+
+          player.dice.forEach(function(die){
+            $('#player'+player.id).append('<div class="unknown_die col-md-4">&#9633;</div>');
+          });
+
       });
       $('#player'+game.turn.id).removeClass('col-md-3');
     $('#player'+game.turn.id).addClass('active  col-md-4');
