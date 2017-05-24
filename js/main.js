@@ -158,7 +158,7 @@ function Player(game,id){
     game.bid.face+' including wild 1s!:'+dice_with_correct_face);
     game.log.push('There are '+dice_with_correct_face.length+' dice with face '+
     game.bid.face+' including wild 1s!:'+dice_with_correct_face);
-    if (dice_with_correct_face < game.bid.quantity){
+    if (dice_with_correct_face.length < game.bid.quantity){
       this.game.bid.player.lose_die();
       console.log('player '+this.game.bid.player.id+' lost a die!');
       game.log.push('player '+this.game.bid.player.id+' lost a die!');
