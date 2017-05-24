@@ -56,8 +56,8 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-.active {
-  color: green;
+body {
+  background-color: #cce6ff;
 }
 
 .player, #bid, #log{

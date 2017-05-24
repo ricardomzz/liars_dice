@@ -31,24 +31,26 @@ function Game(number_of_players){
       });
       $('#player'+game.turn.id).removeClass('col-md-3');
     $('#player'+game.turn.id).addClass('active  col-md-12');
+    $('#player'+game.turn.id).append('<div id="controls" class="col-md-4 col-md-offset-4"></div>');
     //Show dice for current player
     game.turn.dice.forEach(function(die){
-      $('#player'+game.turn.id).append('<span class="die">'+dice[die]+'</span>');
+      $('#player'+game.turn.id).append('<div id="dice" class="col-md-12"></div>');
+      $('#dice').append('<span class="die">'+dice[die]+'</span>');
 
     });
       //Add Controls and assign functions
-    $('#player'+game.turn.id).append('<p>Quantity: '+
-      '<input type="number" min="1" max="'+game.players.length*3+'" id="bid_quantity" step="1" value="'+
+    $('#controls').append('<p>Quantity: '+
+      '<input type="number" class="form-control" min="1" max="'+game.players.length*3+'" id="bid_quantity" step="1" value="'+
       game.bid.quantity+'" /></p>');
-    $('#player'+game.turn.id).append('<p>Face:'+
-      '<input type="number" id="bid_face" min="1" max="6" step="1" value="'+
+    $('#controls').append('<p>Face:'+
+      '<input type="number" class="form-control" id="bid_face" min="1" max="6" step="1" value="'+
       game.bid.face+'" /></p>');
-    $('#player'+game.turn.id).append(
-        '<button type="button" id="raise_bid">Raise Bid!</button>');
-    $('#player'+game.turn.id).append(
-        '<button type="button" id="challenge">Challenge!</button>');
-    $('#player'+game.turn.id).append(
-        '<button type="button" id="auto_bid">Auto</button>');
+    $('#controls').append(
+        '<button type="button" class="btn btn-default" id="raise_bid">Raise Bid!</button>');
+    $('#controls').append(
+        '<button type="button" class="btn btn-default" id="challenge">Challenge!</button>');
+    $('#controls').append(
+        '<button type="button" class="btn btn-default" id="auto_bid">Auto</button>');
       }
 
     $("#raise_bid").click(function(){
