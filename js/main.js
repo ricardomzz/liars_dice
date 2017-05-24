@@ -31,6 +31,7 @@ function Game(number_of_players){
         '</h3></div>');
       $('#player'+player.id).append('<p># of Dice: '+player.dice.length+'</p>');
     });
+    if (game.turn){
     $('#player'+game.turn.id).addClass('active');
     //Show dice for current player
     game.turn.dice.forEach(function(die){
@@ -50,6 +51,7 @@ function Game(number_of_players){
         '<button type="button" id="challenge">Challenge!</button>');
     $('#player'+game.turn.id).append(
         '<button type="button" id="auto_bid">Auto</button>');
+      }
 
     $("#raise_bid").click(function(){
         quantity=parseInt($('#bid_quantity').val());
@@ -167,7 +169,7 @@ function Player(game,id){
       game.log.push('player '+this.id+' lost a die!');
     }
     this.game.new_round();
-    if (game.turn.auto) {game.auto();}
+    if (game.turn && game.turn.auto) {game.auto();}
   } else {console.log('no bid to challenge');game.log.push('no bid to challenge');}
   };
   this.auto_bid = function () {
