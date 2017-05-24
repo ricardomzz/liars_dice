@@ -8,9 +8,10 @@ function Game(number_of_players){
     this.turn=this.players[this.players.indexOf(this.turn)+1] ?
     this.players[this.players.indexOf(this.turn)+1]:
     this.players[0];
-    this.render();
     console.log('player '+this.turn.id+"'s turn");
     game.log.push('player '+this.turn.id+"'s turn");
+    this.render();
+
   };
   this.auto = function(){
     while(this.turn.auto){
@@ -140,7 +141,7 @@ function Player(game,id){
       this.game.bid={quantity:quantity,face:face,player:this};
       this.game.next_turn();
       if (game.turn.auto) {game.auto();}
-    } else {console.log('Invalid Bid!');game.log.push('Invalid Bid!');}
+    } else {console.log('Invalid Bid!');game.log.push('Invalid Bid!');game.render();}
 
 
   };
