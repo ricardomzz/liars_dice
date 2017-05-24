@@ -158,7 +158,7 @@ function Player(game,id){
     game.log.push('player '+this.id+' challenged player '+
     this.game.bid.player.id+"'s bid!");
     dice_with_correct_face=game.all_dice()
-    .filter(function(die){return die==2 || die==1;});
+    .filter(function(die){return die==game.bid.face || die==1;});
     console.log('There are '+dice_with_correct_face.length+' dice with face '+
     game.bid.face+' including wild 1s!:'+dice_with_correct_face);
     game.log.push('There are '+dice_with_correct_face.length+' dice with face '+
