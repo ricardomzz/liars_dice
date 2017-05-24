@@ -32,10 +32,11 @@ function Game(number_of_players){
       });
       $('#player'+game.turn.id).removeClass('col-md-3');
     $('#player'+game.turn.id).addClass('active  col-md-12');
+    $('#player'+game.turn.id).html('<h3>Player'+game.turn.id+'</h3>');
+    $('#player'+game.turn.id).append('<div id="dice" class="col-md-12"></div>');
     $('#player'+game.turn.id).append('<div id="controls" class="col-md-4 col-md-offset-4"></div>');
     //Show dice for current player
     game.turn.dice.forEach(function(die){
-      $('#player'+game.turn.id).append('<div id="dice" class="col-md-12"></div>');
       $('#dice').append('<span class="die">'+dice[die]+'</span>');
 
     });
